@@ -277,28 +277,6 @@
             }
         }
 
-        @keyframes placeX {
-            from {
-                transform: scale(0) rotate(180deg);
-                opacity: 0;
-            }
-            to {
-                transform: scale(1) rotate(0deg);
-                opacity: 1;
-            }
-        }
-
-        @keyframes placeO {
-            from {
-                transform: scale(0) rotate(-180deg);
-                opacity: 0;
-            }
-            to {
-                transform: scale(1) rotate(0deg);
-                opacity: 1;
-            }
-        }
-
         @keyframes winningPulse {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.1); }
@@ -432,27 +410,96 @@
 
         @media (max-width: 480px) {
             .game-container {
-                padding: 1.5rem;
+                padding: 1rem;
+                margin: 1rem;
+                width: calc(100% - 2rem);
+                border-radius: 12px;
             }
             
             .cell {
                 width: 70px;
                 height: 70px;
                 font-size: 1.8rem;
+                font-family: 'Arial Black', 'Arial', 'Helvetica', sans-serif;
             }
             
             h1 {
-                font-size: 2rem;
+                font-size: 1.8rem;
+                font-family: 'Arial Black', 'Arial', 'Helvetica', sans-serif;
+                margin-bottom: 1rem;
+                line-height: 1.1;
+            }
+            
+            .score-board {
+                gap: 1rem;
+                flex-wrap: wrap;
+                justify-content: space-around;
+            }
+            
+            .score {
+                font-size: 0.9rem;
+                font-family: 'Arial Black', 'Arial', 'Helvetica', sans-serif;
+            }
+            
+            .turn-indicator {
+                font-size: 1rem;
+                font-family: 'Arial Black', 'Arial', 'Helvetica', sans-serif;
+            }
+            
+            .game-message {
+                font-size: 1.1rem;
+                font-family: 'Arial Black', 'Arial', 'Helvetica', sans-serif;
             }
             
             .controls {
                 flex-direction: column;
                 align-items: center;
+                gap: 0.5rem;
             }
             
             .btn {
                 width: 100%;
                 max-width: 200px;
+                font-family: 'Arial Black', 'Arial', 'Helvetica', sans-serif;
+                font-size: 0.8rem;
+                padding: 0.6rem 1rem;
+            }
+            
+            .difficulty-selector {
+                margin-bottom: 0.5rem;
+            }
+            
+            .difficulty-selector label {
+                font-size: 0.9rem;
+                font-family: 'Arial Black', 'Arial', 'Helvetica', sans-serif;
+                display: block;
+                margin-bottom: 0.3rem;
+                margin-right: 0;
+                text-align: center;
+            }
+            
+            .difficulty-selector select {
+                font-size: 0.8rem;
+                font-family: 'Arial', 'Helvetica', sans-serif;
+                width: 100%;
+                max-width: 200px;
+                text-align: center;
+            }
+            
+            .game-board {
+                margin: 1rem auto;
+                padding: 10px;
+                grid-gap: 8px;
+            }
+            
+            .game-info {
+                height: 50px;
+                margin-bottom: 1rem;
+            }
+            
+            .ai-thinking {
+                font-size: 0.9rem;
+                font-family: 'Arial Black', 'Arial', 'Helvetica', sans-serif;
             }
         }
     </style>
@@ -478,7 +525,7 @@
         </div>
 
         <div class="game-info">
-            <div class="turn-indicator player-turn" id="turn-indicator">Your Turn</div>
+            <div class="turn-indicator player-turn" id="turn-indicator">Your Turn (🚀 Rockets)</div>
         </div>
 
         <div class="game-board" id="game-board">
@@ -575,14 +622,13 @@
                     this.makeMove(bestMove, 'O');
                     this.isAITurn = false;
                     this.cells.forEach(cell => cell.classList.remove('disabled'));
-                }, 500 + Math.random() * 500); // Random delay for realism
+                }, 500 + Math.random() * 500);
             }
 
             getBestMove() {
                 const difficulty = this.difficultySelect.value;
                 
                 if (difficulty === 'easy') {
-                    // Easy mode: 30% chance of optimal move, otherwise random
                     if (Math.random() < 0.3) {
                         return this.minimaxMove();
                     } else {
@@ -592,7 +638,6 @@
                         return availableMoves[Math.floor(Math.random() * availableMoves.length)];
                     }
                 } else {
-                    // Hard mode: Always optimal
                     return this.minimaxMove();
                 }
             }
@@ -649,9 +694,9 @@
 
             checkWin(player) {
                 const winPatterns = [
-                    [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
-                    [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
-                    [0, 4, 8], [2, 4, 6] // Diagonals
+                    [0, 1, 2], [3, 4, 5], [6, 7, 8],
+                    [0, 3, 6], [1, 4, 7], [2, 5, 8],
+                    [0, 4, 8], [2, 4, 6]
                 ];
 
                 for (const pattern of winPatterns) {
@@ -672,7 +717,6 @@
             endGame(result) {
                 this.gameActive = false;
                 
-                // Add game-over class to enable winning animations
                 document.querySelector('.game-board').classList.add('game-over');
                 
                 switch (result) {
@@ -705,7 +749,6 @@
                 this.gameActive = true;
                 this.isAITurn = false;
                 
-                // Remove game-over class to disable winning animations
                 document.querySelector('.game-board').classList.remove('game-over');
                 
                 this.cells.forEach(cell => {
@@ -738,12 +781,10 @@
             }
 
             saveScores() {
-                // Use in-memory storage instead of localStorage
                 window.gameScores = this.scores;
             }
 
             loadScores() {
-                // Load from in-memory storage
                 if (window.gameScores) {
                     this.scores = { ...window.gameScores };
                 }
@@ -757,22 +798,17 @@
             }
         }
 
-        // Star animation functions
         function createShootingStar() {
             const starsContainer = document.getElementById('starsContainer');
             const star = document.createElement('div');
             star.className = 'shooting-star';
             
-            // Random starting position
             star.style.left = Math.random() * 100 + '%';
             star.style.top = Math.random() * 100 + '%';
-            
-            // Random animation duration
             star.style.animationDuration = (2 + Math.random() * 3) + 's';
             
             starsContainer.appendChild(star);
             
-            // Remove star after animation
             setTimeout(() => {
                 if (star.parentNode) {
                     star.remove();
@@ -805,10 +841,9 @@
 
         function initStarAnimations() {
             createStaticStars();
-            setInterval(createShootingStar, 1200); // Create new shooting star every 1200ms
+            setInterval(createShootingStar, 1200);
         }
 
-        // Initialize the game when page loads
         document.addEventListener('DOMContentLoaded', () => {
             new TicTacToe();
             initStarAnimations();
