@@ -14,13 +14,23 @@
         body {
             font-family: 'Arial Black', 'Arial', 'Helvetica', sans-serif;
             background: linear-gradient(135deg, #1B3A4B 0%, #0F2834 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            margin: 0;
+            padding: 15px;
+            height: 100vh;
             color: #ffffff;
             position: relative;
             overflow: hidden;
+            display: grid;
+            grid-template-rows: 1fr auto;
+            place-items: center;
+        }
+
+        .main-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 100vw;
         }
 
         .stars-container {
@@ -106,9 +116,9 @@
             border: 1px solid rgba(129, 215, 66, 0.2);
             border-radius: 16px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            padding: 2rem;
+            padding: 1.5rem;
             text-align: center;
-            max-width: 500px;
+            max-width: 450px;
             width: 90%;
             animation: slideIn 0.5s ease-out;
             position: relative;
@@ -127,8 +137,8 @@
         }
 
         h1 {
-            margin-bottom: 1.5rem;
-            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-size: 2rem;
             font-weight: 900;
             letter-spacing: 2px;
             text-transform: uppercase;
@@ -144,8 +154,8 @@
         }
 
         .game-info {
-            margin-bottom: 1.5rem;
-            height: 60px;
+            margin-bottom: 1rem;
+            height: 50px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -153,9 +163,9 @@
         }
 
         .turn-indicator {
-            font-size: 1.2rem;
+            font-size: 1rem;
             font-weight: 600;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.3rem;
             transition: all 0.3s ease;
             color: #ffffff;
         }
@@ -202,12 +212,12 @@
         }
 
         .cell {
-            width: 80px;
-            height: 80px;
+            width: 65px;
+            height: 65px;
             background: rgba(255, 255, 255, 0.1);
             border: 2px solid rgba(255, 255, 255, 0.3);
             border-radius: 12px;
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-family: 'Arial Black', 'Arial', 'Helvetica', sans-serif;
             font-weight: 900;
             cursor: pointer;
@@ -408,7 +418,40 @@
             50% { opacity: 1; }
         }
 
+        .footer {
+            background: linear-gradient(135deg, #1B3A4B 0%, #0F2834 100%);
+            padding: 20px;
+            text-align: center;
+            width: 100%;
+            position: relative;
+            z-index: 2;
+            margin-top: auto;
+        }
+
+        .footer-title {
+            color: #81D742;
+            font-size: 1.2rem;
+            font-weight: 900;
+            margin-bottom: 8px;
+            font-family: 'Arial Black', 'Arial', 'Helvetica', sans-serif;
+        }
+
+        .footer-subtitle {
+            color: #ffffff;
+            font-size: 0.9rem;
+            font-weight: 600;
+            font-family: 'Arial Black', 'Arial', 'Helvetica', sans-serif;
+            font-style: italic;
+            line-height: 1.4;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
         @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+
             .game-container {
                 padding: 1rem;
                 margin: 1rem;
@@ -501,51 +544,71 @@
                 font-size: 0.9rem;
                 font-family: 'Arial Black', 'Arial', 'Helvetica', sans-serif;
             }
+
+            .footer {
+                padding: 15px;
+            }
+
+            .footer-title {
+                font-size: 1rem;
+                margin-bottom: 6px;
+            }
+
+            .footer-subtitle {
+                font-size: 0.8rem;
+            }
         }
     </style>
 </head>
 <body>
     <div class="stars-container" id="starsContainer"></div>
     
-    <div class="game-container">
-        <h1><span class="title-servicenow">Rockets and Stars</span><br><span class="title-game">(AI Tic-Tac-Toe)</span></h1>
-        
-        <div class="difficulty-selector">
-            <label for="difficulty">Difficulty:</label>
-            <select id="difficulty">
-                <option value="easy">Easy</option>
-                <option value="hard" selected>Hard (Unbeatable)</option>
-            </select>
-        </div>
+    <div class="main-content">
+        <div class="game-container">
+            <h1><span class="title-servicenow">Rockets and Stars</span><br><span class="title-game">(AI Tic-Tac-Toe)</span></h1>
+            
+            <div class="difficulty-selector">
+                <label for="difficulty">Difficulty:</label>
+                <select id="difficulty">
+                    <option value="easy" selected>Easy</option>
+                    <option value="hard">Hard (Unbeatable)</option>
+                </select>
+            </div>
 
-        <div class="score-board">
-            <div class="score player">Rockets: <span id="player-score">0</span></div>
-            <div class="score ai">Stars: <span id="ai-score">0</span></div>
-            <div class="score">Draws: <span id="draw-score">0</span></div>
-        </div>
+            <div class="score-board">
+                <div class="score player">Rockets: <span id="player-score">0</span></div>
+                <div class="score ai">Stars: <span id="ai-score">0</span></div>
+                <div class="score">Draws: <span id="draw-score">0</span></div>
+            </div>
 
-        <div class="game-info">
-            <div class="turn-indicator player-turn" id="turn-indicator">Your Turn (🚀 Rockets)</div>
-        </div>
+            <div class="game-info">
+                <div class="turn-indicator player-turn" id="turn-indicator">Your Turn (🚀 Rockets)</div>
+            </div>
 
-        <div class="game-board" id="game-board">
-            <button class="cell" data-index="0"></button>
-            <button class="cell" data-index="1"></button>
-            <button class="cell" data-index="2"></button>
-            <button class="cell" data-index="3"></button>
-            <button class="cell" data-index="4"></button>
-            <button class="cell" data-index="5"></button>
-            <button class="cell" data-index="6"></button>
-            <button class="cell" data-index="7"></button>
-            <button class="cell" data-index="8"></button>
-        </div>
+            <div class="game-board" id="game-board">
+                <button class="cell" data-index="0"></button>
+                <button class="cell" data-index="1"></button>
+                <button class="cell" data-index="2"></button>
+                <button class="cell" data-index="3"></button>
+                <button class="cell" data-index="4"></button>
+                <button class="cell" data-index="5"></button>
+                <button class="cell" data-index="6"></button>
+                <button class="cell" data-index="7"></button>
+                <button class="cell" data-index="8"></button>
+            </div>
 
-        <div class="game-message" id="game-message"></div>
+            <div class="game-message" id="game-message"></div>
 
-        <div class="controls">
-            <button class="btn btn-primary" id="reset-btn">New Game</button>
-            <button class="btn btn-secondary" id="clear-scores-btn">Clear Scores</button>
+            <div class="controls">
+                <button class="btn btn-primary" id="reset-btn">New Game</button>
+                <button class="btn btn-secondary" id="clear-scores-btn">Clear Scores</button>
+            </div>
         </div>
+    </div>
+
+    <div class="footer">
+        <div class="footer-title">Built by Nicholas Pappas - ServiceNow Developer Intern at KeyBank</div>
+        <div class="footer-subtitle">Strategic tic-tac-toe game with unbeatable AI opponent, ServiceNow branding, and animated space theme. Built with HTML, CSS, and JavaScript.</div>
     </div>
 
     <script>
